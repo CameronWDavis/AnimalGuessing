@@ -10,9 +10,11 @@ namespace AnimalGuess
             //local variables 
             int numOfGuesses = 3; 
             string areaPlay = PrintMenu();
+            string guess; 
             Animal[] animalArray = GetAnimalsForRegion(areaPlay);
             Animal animalChoice = RandomIndex(animalArray);
 
+            Console.WriteLine($"Good choice {areaPlay} is a great place to guess animals"); 
            //print statement for region will remove later
             Console.WriteLine("Would you like a hint?");
            string yesOrNo = Console.ReadLine();
@@ -24,14 +26,50 @@ namespace AnimalGuess
             }
 
 
+            while(numOfGuesses != 0)
+            {   
+                Console.WriteLine("Take a guess!");
+                guess = Console.ReadLine();
+                bool checkAgain = checkAnswer(guess,animalChoice);
+                if(checkAgain == true){
+                    break; 
+                }else{
+                    numOfGuesses = numOfGuesses - 1; 
+                }
+            } 
+
+            if(numOfGuesses == 0){
+                Console.WriteLine($"better luck next time! The animal was {animalChoice.Name}");
+            }else{
+                Console.WriteLine("Congrats you win!!!"); 
+            }
+
         }
 
+
+        //function is used to check answer 
+        static bool checkAnswer(string answer, Animal animal)
+        {
+            bool check = false; 
+            if(answer == animal.Name)
+            {
+                check = true;
+                
+            }else{
+                check = false; 
+            }
+
+            return check; 
+        }
+        //function is used to get index
         static Animal RandomIndex(Animal[] animals)
         {
             int index = random.Next(0,animals.Length); 
             return animals[index];
         }
 
+
+        //returns the animals with that region
         static Animal[] GetAnimalsForRegion(string region)
         {
             switch (region)
@@ -57,9 +95,20 @@ namespace AnimalGuess
                 case "North America":
                     return new[]
                     {
-                        
-                    }
-                
+                      new Animal("grizzly", "Has sharp claws for digging and catching food"),
+                      new Animal("eagle", "associated with freedom"),
+                      new Animal("raccoon", "masked face and clever"),
+                      new Animal("bison", "large shaggy-haried beast"),
+                      new Animal("coyote", "a cunning tricker of a animal"),
+                    };
+                case "Australia":
+                    return new[]
+                    {
+                      new Animal("kangaroo", "very hoppy choice "),
+                      new Animal("koala", "eats eucalyptus leaves"),
+                      new Animal("raccoon", "masked face and clever"),
+                      new Animal("bison", "large shaggy-haried beast"),
+                     
                 default:
                     return new Animal[] { };
             }
